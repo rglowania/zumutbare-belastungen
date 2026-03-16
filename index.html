@@ -1,359 +1,290 @@
 <!DOCTYPE html>
-<html lang="de" data-theme="system">
+<html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Zumutbare Belastung – § 33 EStG</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zumutbare Belastung · § 33 EStG</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
 
-    :root {
-      --accent: #1a3a5c;
-      --gold: #c9933a;
-      --bg: #f4f3ef;
-      --surface: #ffffff;
-      --surface-2: #f0efe9;
-      --border: rgba(0,0,0,0.10);
-      --border-strong: rgba(0,0,0,0.16);
-      --text: #1a1a17;
-      --text-2: #5a5a54;
-      --text-3: #9a9a90;
-      --muted: #888880;
-      --accent-light: #e8f0f8;
-      --accent-text: #1a3a5c;
-      --gold-light: #fdf3e3;
-      --radius-sm: 8px;
-      --radius-md: 12px;
-      --radius-lg: 16px;
-    }
+/* ═══════════════════════════════════════════════════════════════
+   G-DESIGN — Template v1.0
+   ═══════════════════════════════════════════════════════════════ */
 
-    html[data-theme="dark"] {
-      --bg: #161612;
-      --surface: #1e1e1a;
-      --surface-2: #272722;
-      --border: rgba(255,255,255,0.07);
-      --border-strong: rgba(255,255,255,0.14);
-      --text: #f0efe9;
-      --text-2: #a8a8a0;
-      --text-3: #6a6a62;
-      --accent-light: #0e1e2e;
-      --accent-text: #7fb3e0;
-      --gold-light: #1e1608;
-    }
+:root,[data-theme="dark"]{
+  --bg:        #0c1410;
+  --surface:   #13201a;
+  --surface2:  #192b22;
+  --border:    #213328;
+  --accent:    #5d9e7a;
+  --accent-lt: #89c4a2;
+  --accent-dim:rgba(93,158,122,0.13);
+  --text:      #ddeee5;
+  --text-muted:#6e9480;
+}
+[data-theme="light"]{
+  --bg:        #f0f7f3;
+  --surface:   #ffffff;
+  --surface2:  #e6f2eb;
+  --border:    #bdd8c8;
+  --accent:    #2e7a50;
+  --accent-lt: #1e5c3a;
+  --accent-dim:rgba(46,122,80,0.10);
+  --text:      #0f1f16;
+  --text-muted:#4d7a5e;
+}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme]){
+    --bg:#f0f7f3;--surface:#ffffff;--surface2:#e6f2eb;--border:#bdd8c8;
+    --accent:#2e7a50;--accent-lt:#1e5c3a;--accent-dim:rgba(46,122,80,0.10);
+    --text:#0f1f16;--text-muted:#4d7a5e;
+  }
+}
 
-    @media (prefers-color-scheme: dark) {
-      html[data-theme="system"] {
-        --bg: #161612;
-        --surface: #1e1e1a;
-        --surface-2: #272722;
-        --border: rgba(255,255,255,0.07);
-        --border-strong: rgba(255,255,255,0.14);
-        --text: #f0efe9;
-        --text-2: #a8a8a0;
-        --text-3: #6a6a62;
-        --accent-light: #0e1e2e;
-        --accent-text: #7fb3e0;
-        --gold-light: #1e1608;
-      }
-    }
+*{box-sizing:border-box;margin:0;padding:0;}
 
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      padding-bottom: 4rem;
-      transition: background 0.2s, color 0.2s;
-    }
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'IBM Plex Sans',sans-serif;font-weight:300;
+  min-height:100vh;padding:40px 20px 80px;
+  transition:background .25s,color .25s;
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    linear-gradient(rgba(93,158,122,0.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(93,158,122,0.04) 1px,transparent 1px);
+  background-size:40px 40px;
+}
 
-    header { margin-bottom: 2.5rem; }
+.container{max-width:920px;margin:0 auto;position:relative;z-index:1;}
 
-    .header-banner {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      background: var(--accent);
-      padding: 16px 28px;
-    }
+/* ── Theme Toggle ── */
+.theme-toggle{
+  position:fixed;top:18px;right:20px;display:flex;gap:3px;
+  z-index:1000;background:var(--surface);border:1px solid var(--border);padding:4px;
+}
+.theme-btn{
+  width:28px;height:28px;background:transparent;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--text-muted);transition:all .2s;padding:0;
+}
+.theme-btn:hover{color:var(--accent);}
+.theme-btn.active{color:var(--accent);background:var(--accent-dim);}
+.theme-btn svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
 
-    .banner-icon {
-      width: 44px; height: 44px;
-      background: rgba(255,255,255,0.12);
-      border-radius: var(--radius-sm);
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'DM Mono', monospace;
-      font-size: 12px; font-weight: 500;
-      color: rgba(255,255,255,0.85);
-      flex-shrink: 0;
-    }
+/* ── Header ── */
+header{text-align:center;margin-bottom:48px;}
+.badge{
+  display:inline-block;font-family:'IBM Plex Mono',monospace;
+  font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--accent);border:1px solid var(--accent-dim);
+  padding:4px 14px;margin-bottom:18px;
+}
+h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(26px,5vw,44px);font-weight:600;
+  line-height:1.15;color:var(--text);margin-bottom:10px;
+}
+h1 span{color:var(--accent);}
+.subtitle{
+  font-size:12px;color:var(--text-muted);
+  font-family:'IBM Plex Mono',monospace;letter-spacing:0.5px;
+}
 
-    .banner-divider {
-      width: 1px; height: 36px;
-      background: rgba(255,255,255,0.18);
-      flex-shrink: 0;
-    }
+/* ── Card ── */
+.card{
+  background:var(--surface);border:1px solid var(--border);
+  padding:24px 28px;margin-bottom:16px;
+  position:relative;transition:background .25s,border-color .25s;
+}
+.card::before{
+  content:'';position:absolute;top:0;left:0;
+  width:3px;height:100%;background:var(--accent);
+}
+.card-title{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;
+  letter-spacing:3px;text-transform:uppercase;
+  color:var(--accent);margin-bottom:18px;
+}
 
-    .banner-text { flex: 1; min-width: 0; }
+/* ── Accent Card ── */
+.accent-card{
+  background:var(--surface);border:1px solid var(--accent);
+  padding:28px;margin-top:20px;transition:background .25s;
+}
 
-    .banner-title {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 15px; font-weight: 700;
-      color: #fff;
-      line-height: 1.2;
-    }
+/* ── Formular-Elemente ── */
+select,input[type="number"],input[type="text"]{
+  width:100%;background:var(--surface2);border:1px solid var(--border);
+  color:var(--text);font-family:'IBM Plex Mono',monospace;
+  font-size:13px;padding:8px 10px;outline:none;
+  transition:border-color .2s,background .25s;
+  -moz-appearance:textfield;appearance:textfield;
+}
+select:focus,input:focus{border-color:var(--accent);}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none;}
 
-    .banner-sub {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      color: rgba(255,255,255,0.5);
-      letter-spacing: 0.05em;
-      margin-top: 3px;
-    }
+.hint{
+  font-size:10px;color:var(--text-muted);margin-top:5px;
+  font-family:'IBM Plex Mono',monospace;line-height:1.5;
+}
+.hint b{color:var(--accent-lt);}
 
-    .theme-toggle {
-      display: flex; gap: 2px;
-      background: rgba(255,255,255,0.1);
-      border-radius: var(--radius-sm);
-      padding: 3px;
-      flex-shrink: 0;
-    }
+/* ── Input mit Einheit ── */
+.input-wrap{position:relative;}
+.input-wrap input{padding-right:32px;}
+.input-unit{
+  position:absolute;right:10px;top:50%;transform:translateY(-50%);
+  font-family:'IBM Plex Mono',monospace;font-size:12px;
+  color:var(--text-muted);pointer-events:none;
+}
 
-    .theme-btn {
-      background: transparent; border: none;
-      border-radius: 5px;
-      width: 28px; height: 28px;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; font-size: 13px;
-      color: rgba(255,255,255,0.45);
-      transition: background 0.15s, color 0.15s;
-    }
+/* ── Ergebnis-Zeilen ── */
+.result-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:7px 0;border-bottom:1px solid var(--border);
+}
+.result-row:last-child{border-bottom:none;}
+.result-row .rl{
+  color:var(--text-muted);font-family:'IBM Plex Mono',monospace;
+  font-size:10px;letter-spacing:1px;max-width:68%;
+}
+.result-row .rv{
+  font-family:'IBM Plex Mono',monospace;font-size:14px;
+  font-weight:400;white-space:nowrap;
+}
+.result-total{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding-top:18px;border-top:1px solid var(--accent);margin-top:8px;
+}
+.result-total-label,.result-total-value{
+  font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:400;
+}
 
-    .theme-btn.active {
-      background: rgba(255,255,255,0.18);
-      color: #fff;
-    }
+/* ── Tabelle ── */
+.zb-table{
+  width:100%;border-collapse:collapse;
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+}
+.zb-table thead td{
+  color:var(--text-muted);letter-spacing:1px;text-transform:uppercase;
+  font-size:9px;padding:6px 8px;border-bottom:1px solid var(--border);
+}
+.zb-table tbody td{
+  padding:8px 8px;border-bottom:1px solid var(--border);color:var(--text-muted);
+}
+.zb-table tbody tr:last-child td{border-bottom:none;}
+.zb-table tbody tr.aktiv td{color:var(--accent);}
+.zb-table tbody tr.aktiv td.hl{font-weight:500;}
+.zb-badge{
+  display:inline-block;font-size:9px;padding:1px 6px;
+  border:1px solid var(--accent-dim);color:var(--accent);
+  letter-spacing:1px;margin-left:6px;text-transform:uppercase;
+}
 
-    .title-block {
-      padding: 2rem 28px 0;
-    }
+/* ── Notiz ── */
+.note{
+  font-size:10px;color:var(--text-muted);margin-top:14px;
+  line-height:1.7;font-family:'IBM Plex Mono',monospace;
+}
 
-    .title-block h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(26px, 4vw, 38px);
-      font-weight: 700;
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-    }
+/* ── Footer ── */
+footer{
+  text-align:center;padding:32px 0 24px;
+  font-family:'IBM Plex Mono',monospace;font-size:10px;
+  letter-spacing:1px;color:var(--text-muted);opacity:0.6;
+}
 
-    .title-block p {
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 12px;
-      font-family: 'DM Mono', monospace;
-      letter-spacing: 0.04em;
-    }
+@media(max-width:640px){
+  .card,.accent-card{padding:18px 16px;}
+  .grid2{grid-template-columns:1fr!important;}
+}
 
-    .page { max-width: 760px; margin: 0 auto; padding: 0 20px; }
-
-    .section-label {
-      font-size: 10px; font-weight: 500;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--text-3); margin: 2rem 0 0.75rem;
-      font-family: 'DM Mono', monospace;
-    }
-
-    .card {
-      background: var(--surface);
-      border: 0.5px solid var(--border-strong);
-      border-radius: var(--radius-lg);
-      padding: 1.5rem;
-    }
-
-    .inputs-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 22px 32px;
-    }
-
-    @media (max-width: 560px) { .inputs-grid { grid-template-columns: 1fr; } }
-
-    .field label {
-      display: block;
-      font-size: 11px;
-      font-family: 'DM Mono', monospace;
-      color: var(--text-2);
-      margin-bottom: 8px;
-      letter-spacing: 0.02em;
-    }
-
-    .slider-row { display: flex; align-items: center; gap: 10px; }
-
-    .slider-row input[type=range] {
-      flex: 1; cursor: pointer;
-      accent-color: var(--accent); height: 4px;
-    }
-
-    .slider-val {
-      font-size: 13px; font-weight: 500;
-      font-family: 'DM Mono', monospace;
-      min-width: 80px; text-align: right;
-    }
-
-    select {
-      width: 100%; padding: 8px 32px 8px 10px;
-      border: 0.5px solid var(--border-strong);
-      border-radius: var(--radius-sm);
-      background: var(--surface-2);
-      color: var(--text); font-size: 14px;
-      font-family: 'DM Sans', sans-serif;
-      cursor: pointer; appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 10px center;
-    }
-
-    .calc-row {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 9px 0; font-size: 14px;
-      border-bottom: 0.5px solid var(--border);
-    }
-    .calc-row:last-child { border-bottom: none; }
-    .calc-row .lbl { color: var(--text-2); }
-
-    .result-box {
-      margin-top: 14px;
-      background: var(--accent);
-      border-radius: var(--radius-md);
-      padding: 16px 20px;
-      display: flex; justify-content: space-between; align-items: center;
-    }
-
-    .result-box .lbl {
-      font-size: 13px; font-weight: 500;
-      color: rgba(255,255,255,0.75);
-      font-family: 'DM Mono', monospace;
-    }
-
-    .result-box .val {
-      font-size: 26px; font-weight: 700;
-      color: #fff; font-family: 'DM Mono', monospace;
-    }
-
-    table { width: 100%; border-collapse: collapse; font-size: 13px; }
-
-    thead td {
-      padding: 6px 10px;
-      color: var(--text-3);
-      font-family: 'DM Mono', monospace;
-      font-size: 11px; letter-spacing: 0.04em;
-      border-bottom: 0.5px solid var(--border-strong);
-    }
-
-    tbody tr { border-bottom: 0.5px solid var(--border); }
-    tbody tr:last-child { border-bottom: none; }
-    tbody td { padding: 8px 10px; }
-
-    tbody tr.akt { background: var(--accent-light); }
-    tbody tr.akt td { color: var(--accent-text); }
-    tbody tr.akt td.akt-col { font-weight: 700; font-family: 'DM Mono', monospace; }
-
-    .badge {
-      display: inline-block; font-size: 10px;
-      padding: 2px 8px; border-radius: 999px;
-      background: var(--gold); color: #fff;
-      margin-left: 8px; font-family: 'DM Mono', monospace;
-      vertical-align: middle;
-    }
-
-    .info-box {
-      font-size: 12px; color: var(--text-2);
-      background: var(--gold-light);
-      border-radius: var(--radius-sm);
-      padding: 10px 14px; margin-top: 1rem;
-      font-family: 'DM Mono', monospace;
-      border-left: 3px solid var(--gold);
-    }
-
-    footer {
-      margin-top: 3.5rem; text-align: center;
-      font-size: 11px; font-family: 'DM Mono', monospace;
-      color: var(--text-3); letter-spacing: 0.03em;
-    }
-  </style>
+</style>
 </head>
 <body>
 
-<header>
-  <div class="header-banner">
-    <div class="banner-icon">§ 33</div>
-    <div class="banner-divider"></div>
-    <div class="banner-text">
-      <div class="banner-title">Zumutbare Belastung</div>
-      <div class="banner-sub">EStG · Außergewöhnliche Belastungen</div>
-    </div>
-    <div class="theme-toggle">
-      <button class="theme-btn" id="btn-light" onclick="setTheme('light')" title="Hell">☀️</button>
-      <button class="theme-btn active" id="btn-system" onclick="setTheme('system')" title="System">⚙️</button>
-      <button class="theme-btn" id="btn-dark" onclick="setTheme('dark')" title="Dunkel">🌙</button>
-    </div>
-  </div>
-  <div class="page">
-    <div class="title-block">
-      <h1>§ 33 EStG Rechner</h1>
-      <p>// Berechnung der zumutbaren Belastung &amp; des abzugsfähigen Betrags</p>
-    </div>
-  </div>
-</header>
+<div class="theme-toggle">
+  <button class="theme-btn" id="btn-dark" onclick="setTheme('dark')" title="Dunkel">
+    <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  </button>
+  <button class="theme-btn" id="btn-system" onclick="setTheme('system')" title="System">
+    <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+  </button>
+  <button class="theme-btn" id="btn-light" onclick="setTheme('light')" title="Hell">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+  </button>
+</div>
 
-<div class="page">
+<div class="container">
 
-  <div class="section-label">Eingaben</div>
+  <header>
+    <div class="badge">§ 33 EStG &middot; Rechner</div>
+    <h1>Zumutbare <span>Belastung</span></h1>
+    <p class="subtitle">Außergewöhnliche Belastungen &middot; § 33 Abs. 1 &amp; 3 EStG &middot; VZ 2024 / 2025</p>
+  </header>
+
+  <!-- EINGABEN -->
   <div class="card">
-    <div class="inputs-grid">
-      <div class="field">
-        <label>Gesamtbetrag der Einkünfte (GdE)</label>
-        <div class="slider-row">
-          <input type="range" min="5000" max="250000" value="50000" step="1000" id="gde" oninput="update()">
-          <span class="slider-val" id="gde-out">50.000 €</span>
+    <div class="card-title">Eingaben</div>
+
+    <div class="grid2" style="display:grid;grid-template-columns:1fr 1fr;gap:20px 32px;">
+
+      <div>
+        <div class="input-wrap">
+          <input type="number" id="gde" value="50000" min="0" step="1" oninput="update()" placeholder="z. B. 50000">
+          <span class="input-unit">€</span>
         </div>
+        <div class="hint">Gesamtbetrag der Einkünfte (GdE)</div>
       </div>
-      <div class="field">
-        <label>Veranlagungsform</label>
+
+      <div>
         <select id="veranlagung" onchange="update()">
           <option value="einzel">Einzelveranlagung</option>
           <option value="zusammen">Zusammenveranlagung</option>
         </select>
+        <div class="hint">Veranlagungsform &middot; § 26 / 26b EStG</div>
       </div>
-      <div class="field">
-        <label>Anzahl Kinder (§ 32 EStG)</label>
-        <div class="slider-row">
-          <input type="range" min="0" max="6" value="0" step="1" id="kinder" oninput="update()">
-          <span class="slider-val" id="kinder-out">0</span>
+
+      <div>
+        <input type="number" id="kinder" value="0" min="0" max="20" step="1" oninput="update()" placeholder="0">
+        <div class="hint">Anzahl Kinder i. S. d. § 32 EStG</div>
+      </div>
+
+      <div>
+        <div class="input-wrap">
+          <input type="number" id="aufwand" value="5000" min="0" step="1" oninput="update()" placeholder="z. B. 5000">
+          <span class="input-unit">€</span>
         </div>
+        <div class="hint">Tatsächlicher Aufwand (agB gesamt)</div>
       </div>
-      <div class="field">
-        <label>Außergewöhnliche Belastungen (Aufwand)</label>
-        <div class="slider-row">
-          <input type="range" min="0" max="30000" value="5000" step="100" id="aufwand" oninput="update()">
-          <span class="slider-val" id="aufwand-out">5.000 €</span>
-        </div>
-      </div>
+
     </div>
   </div>
 
-  <div class="section-label">Berechnung nach § 33 Abs. 1 EStG</div>
+  <!-- BERECHNUNG -->
   <div class="card">
+    <div class="card-title">Berechnung · § 33 Abs. 1 EStG</div>
     <div id="calc-rows"></div>
-    <div class="result-box">
-      <span class="lbl">Abzugsfähiger Betrag</span>
-      <span class="val" id="abzug-val">—</span>
-    </div>
   </div>
 
-  <div class="section-label">Prozentsatz-Tabelle § 33 Abs. 3 EStG</div>
-  <div class="card">
-    <table>
+  <!-- ERGEBNIS -->
+  <div class="accent-card">
+    <div class="card-title" style="margin-bottom:14px;">Ergebnis</div>
+    <div id="result-rows"></div>
+    <div class="result-total">
+      <span class="result-total-label" style="font-weight:500;">Abzugsfähiger Betrag</span>
+      <span class="result-total-value" id="abzug-val">—</span>
+    </div>
+    <p class="note" id="result-note"></p>
+  </div>
+
+  <!-- TABELLE -->
+  <div class="card" style="margin-top:16px;">
+    <div class="card-title">Prozentsatz-Tabelle · § 33 Abs. 3 EStG</div>
+    <table class="zb-table">
       <thead>
         <tr>
           <td>GdE-Stufe</td>
@@ -364,99 +295,117 @@
       </thead>
       <tbody id="tabelle-body"></tbody>
     </table>
-    <div class="info-box" id="aktive-zeile"></div>
+    <div class="hint" style="margin-top:12px;" id="tabelle-hint"></div>
   </div>
 
-  <footer>
-    Kein Steuerberater &nbsp;·&nbsp; keine Haftung &nbsp;·&nbsp; Stand § 33 EStG &nbsp;·&nbsp; &copy; <span id="year"></span>
-  </footer>
 </div>
 
+<footer>&copy; Robin Glowania &middot; Kein Steuerberater &middot; Keine Gewähr &middot; <span id="jahr"></span></footer>
+
 <script>
-  document.getElementById("year").textContent = new Date().getFullYear();
-
-  function setTheme(t) {
-    document.documentElement.setAttribute("data-theme", t);
-    ["light","system","dark"].forEach(k =>
-      document.getElementById("btn-" + k).classList.toggle("active", k === t)
-    );
-    localStorage.setItem("zb-theme", t);
+// ── Theme ──────────────────────────────────────────────────────
+function setTheme(t) {
+  if (t === 'system') {
+    document.documentElement.removeAttribute('data-theme');
+  } else {
+    document.documentElement.setAttribute('data-theme', t);
   }
-  setTheme(localStorage.getItem("zb-theme") || "system");
+  try { localStorage.setItem('g-theme', t); } catch(e){}
+  document.querySelectorAll('.theme-btn').forEach(function(b){ b.classList.remove('active'); });
+  var btn = document.getElementById('btn-' + t);
+  if (btn) btn.classList.add('active');
+}
+(function(){
+  var saved = 'system';
+  try { saved = localStorage.getItem('g-theme') || 'system'; } catch(e){}
+  setTheme(saved);
+  document.getElementById('jahr').textContent = new Date().getFullYear();
+})();
 
-  const TABELLE = [
-    { bis: 15340,    p0: 5, p12: 2, p3: 0, label: "bis 15.340 €" },
-    { bis: 51130,    p0: 6, p12: 3, p3: 1, label: "15.341 – 51.130 €" },
-    { bis: Infinity, p0: 7, p12: 4, p3: 2, label: "über 51.130 €" },
+// ── Daten ──────────────────────────────────────────────────────
+var STUFEN = [
+  { bis: 15340,    p0: 5, p12: 2, p3: 0, label: 'bis 15.340\u202f\u20ac' },
+  { bis: 51130,    p0: 6, p12: 3, p3: 1, label: '15.341\u2013\u202f51.130\u202f\u20ac' },
+  { bis: Infinity, p0: 7, p12: 4, p3: 2, label: '\u00fcber 51.130\u202f\u20ac' },
+];
+
+function fmt(n) {
+  return n.toLocaleString('de-DE', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '\u202f\u20ac';
+}
+function getStufe(gde) {
+  for (var i = 0; i < STUFEN.length; i++) {
+    if (gde <= STUFEN[i].bis) return STUFEN[i];
+  }
+  return STUFEN[STUFEN.length - 1];
+}
+function getProzent(gde, kinder) {
+  var s = getStufe(gde);
+  if (kinder === 0) return s.p0;
+  if (kinder <= 2)  return s.p12;
+  return s.p3;
+}
+function kinderText(k) {
+  if (k === 0) return 'keine Kinder';
+  if (k === 1) return '1 Kind';
+  return k + (k >= 3 ? ' Kinder (3+)' : ' Kinder');
+}
+
+// ── Render ─────────────────────────────────────────────────────
+function update() {
+  var gde     = parseFloat(document.getElementById('gde').value)     || 0;
+  var kinder  = parseInt(document.getElementById('kinder').value)     || 0;
+  var aufwand = parseFloat(document.getElementById('aufwand').value)  || 0;
+
+  if (kinder < 0) kinder = 0;
+
+  var pct      = getProzent(gde, kinder);
+  var zumutbar = gde * pct / 100;
+  var abzug    = Math.max(0, aufwand - zumutbar);
+
+  // Berechnung
+  var calcData = [
+    ['Gesamtbetrag der Eink\u00fcnfte (GdE)',                    fmt(gde)],
+    ['Anzahl Kinder \u00b7 § 32 EStG',                           kinderText(kinder)],
+    ['Anzuwendender Prozentsatz',                                 pct + '\u202f%'],
+    ['Zumutbare Belastung \u00b7 GdE \u00d7 ' + pct + '\u202f%', fmt(zumutbar)],
+    ['Tats\u00e4chlicher Aufwand (agB)',                          fmt(aufwand)],
   ];
+  document.getElementById('calc-rows').innerHTML = calcData.map(function(r) {
+    return '<div class="result-row"><span class="rl">' + r[0] + '</span><span class="rv">' + r[1] + '</span></div>';
+  }).join('');
 
-  function fmt(n) {
-    return n.toLocaleString("de-DE", { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + "\u202f€";
-  }
+  // Ergebnis
+  document.getElementById('result-rows').innerHTML =
+    '<div class="result-row">'
+    + '<span class="rl">Aufwand \u00b7 ./. \u00b7 Zumutbare Belastung</span>'
+    + '<span class="rv">' + fmt(aufwand) + ' \u2212 ' + fmt(zumutbar) + '</span>'
+    + '</div>';
 
-  function getRow(gde) {
-    for (const r of TABELLE) if (gde <= r.bis) return r;
-    return TABELLE[TABELLE.length - 1];
-  }
+  document.getElementById('abzug-val').textContent = fmt(abzug);
 
-  function getProzent(gde, kinder) {
-    const r = getRow(gde);
-    return kinder === 0 ? r.p0 : kinder <= 2 ? r.p12 : r.p3;
-  }
+  document.getElementById('result-note').textContent = abzug > 0
+    ? 'Abzugsf\u00e4hig: ' + fmt(abzug) + ' \u00b7 Nicht abzugsf\u00e4hig (zumutbar): ' + fmt(zumutbar) + ' \u00b7 § 33 Abs. 1 EStG \u00b7 Kein Rechtsanspruch.'
+    : 'Aufwand unterschreitet die zumutbare Belastung (' + fmt(zumutbar) + ') \u00b7 Kein Abzug m\u00f6glich \u00b7 § 33 Abs. 1 EStG \u00b7 Kein Rechtsanspruch.';
 
-  function update() {
-    const gde     = parseInt(document.getElementById("gde").value);
-    const kinder  = parseInt(document.getElementById("kinder").value);
-    const aufwand = parseInt(document.getElementById("aufwand").value);
+  // Tabelle
+  var aktStufe = getStufe(gde);
+  var colIdx   = kinder === 0 ? 0 : kinder <= 2 ? 1 : 2;
 
-    document.getElementById("gde-out").textContent     = fmt(gde);
-    document.getElementById("kinder-out").textContent  = kinder;
-    document.getElementById("aufwand-out").textContent = fmt(aufwand);
+  document.getElementById('tabelle-body').innerHTML = STUFEN.map(function(s) {
+    var akt = s === aktStufe;
+    return '<tr class="' + (akt ? 'aktiv' : '') + '">'
+      + '<td>' + s.label + (akt ? '<span class="zb-badge">aktiv</span>' : '') + '</td>'
+      + '<td style="text-align:center;" class="' + (akt && colIdx === 0 ? 'hl' : '') + '">' + s.p0 + '\u202f%</td>'
+      + '<td style="text-align:center;" class="' + (akt && colIdx === 1 ? 'hl' : '') + '">' + s.p12 + '\u202f%</td>'
+      + '<td style="text-align:center;" class="' + (akt && colIdx === 2 ? 'hl' : '') + '">' + s.p3 + '\u202f%</td>'
+      + '</tr>';
+  }).join('');
 
-    const pct      = getProzent(gde, kinder);
-    const zumutbar = Math.round(gde * pct / 100);
-    const abzug    = Math.max(0, aufwand - zumutbar);
+  document.getElementById('tabelle-hint').innerHTML =
+    'Aktiver Satz: <b>' + pct + '\u202f%</b> \u00b7 GdE ' + fmt(gde) + ' \u00b7 ' + kinderText(kinder);
+}
 
-    const rows = [
-      ["Gesamtbetrag der Einkünfte",                              fmt(gde)],
-      ["Anzahl Kinder",                                           kinder + (kinder === 1 ? " Kind" : " Kinder")],
-      ["Anzuwendender Prozentsatz",                               pct + "\u202f%"],
-      ["Zumutbare Belastung (GdE\u00a0\u00d7\u00a0" + pct + "%)", fmt(zumutbar)],
-      ["Tatsächlicher Aufwand",                                   fmt(aufwand)],
-      ["Aufwand\u202f./.\u202fzumutbare Belastung",               fmt(aufwand) + " \u2212 " + fmt(zumutbar)],
-    ];
-
-    document.getElementById("calc-rows").innerHTML = rows.map((r, i) => {
-      const last = i === rows.length - 1;
-      return `<div class="calc-row">
-        <span class="lbl">${r[0]}</span>
-        <span style="font-family:'DM Mono',monospace;font-size:13px;${last?"font-weight:700;":""}">${r[1]}</span>
-      </div>`;
-    }).join("");
-
-    document.getElementById("abzug-val").textContent = fmt(abzug);
-
-    const colIdx = kinder === 0 ? 0 : kinder <= 2 ? 1 : 2;
-    const aktRow = getRow(gde);
-
-    document.getElementById("tabelle-body").innerHTML = TABELLE.map(r => {
-      const a = r === aktRow;
-      return `<tr class="${a ? "akt" : ""}">
-        <td>${r.label}${a ? '<span class="badge">aktuell</span>' : ""}</td>
-        <td style="text-align:center;" class="${a && colIdx===0 ? "akt-col" : ""}">${r.p0} %</td>
-        <td style="text-align:center;" class="${a && colIdx===1 ? "akt-col" : ""}">${r.p12} %</td>
-        <td style="text-align:center;" class="${a && colIdx===2 ? "akt-col" : ""}">${r.p3} %</td>
-      </tr>`;
-    }).join("");
-
-    const kt = kinder === 0 ? "keine Kinder"
-      : kinder <= 2 ? `${kinder} Kind${kinder > 1 ? "er" : ""}`
-      : `${kinder} Kinder (3+)`;
-    document.getElementById("aktive-zeile").innerHTML =
-      `Aktiver Satz: <strong>${pct} %</strong> &nbsp;·&nbsp; GdE ${fmt(gde)} &nbsp;·&nbsp; ${kt}`;
-  }
-
-  update();
+update();
 </script>
 </body>
 </html>
